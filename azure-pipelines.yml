@@ -8,6 +8,15 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+parameters:
+  - name: value
+    displayName: Inputs
+    default: thane
+    values:
+      - thane
+      - chennai
+      - bengaluru
+      - ladakh
 
 steps:
 - task: NodeTool@0
