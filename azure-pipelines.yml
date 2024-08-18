@@ -29,8 +29,8 @@ steps:
   displayName: 'npm install'
 
 - script: |
-    npm run build
-  displayName: 'npm build'
+    npm start
+  displayName: 'npm start'
 - task: CopyFiles@2
   inputs:
     sourceFolder: '$(Build.SourcesDirectory)'
