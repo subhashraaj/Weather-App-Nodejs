@@ -4,13 +4,8 @@ const axios = require("axios")
 const app = express();
 const PORT = 3000;
 
-
-
-
-
-
 app.get("/weather", async (req, res) => {
-    const city = "thane"
+    const city = "${{parameters.value}}"
     const KEY = "3da301ef219b1a51053fe32766928c20"
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${KEY}`
 
