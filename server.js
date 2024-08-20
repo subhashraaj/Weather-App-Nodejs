@@ -30,5 +30,10 @@ app.get("/weather", async (req, res) => {
 })
 
 app.listen(PORT, () => {
+<<<<<<< HEAD
     console.log(`Server Runs in: http://localhost:${PORT}`)
 })
+=======
+    console.log(`Server Runs in: ${PORT}`)
+})
+>>>>>>> 2b078c1d95e2bad11eb4ea8941732ad6d80251bf
