@@ -22,7 +22,6 @@ app.get("/weather", async (req, res) => {
         weather = response.data.main.temp
         let up_weather = JSON.stringify(weather)
         let in_weather = (parseInt(up_weather) - 273.3).toPrecision(4)
-        let str_weather = JSON.stringify(in_weather)
         res.send(in_weather)
     } catch (error) {
         res.send(error)
@@ -31,5 +30,5 @@ app.get("/weather", async (req, res) => {
 })
 
 app.listen(PORT, () => {
-    console.log(`Server Runs in: ${PORT}`)
+    console.log(`Server Runs in: http://localhost:${PORT}`)
 })
