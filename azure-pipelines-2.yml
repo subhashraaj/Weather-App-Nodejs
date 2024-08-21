@@ -1,0 +1,76 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: value
+    displayName: Inputs
+    default: thane
+    values:
+      - thane
+      - chennai
+      - ladakh
+      - delhi
+
+steps:
+- task: UseNode@1
+  inputs:
+    version: '20.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+  displayName: 'npm install'
+
+- script: |
+    npm run build
+  displayName: 'npm build'
+
+- script: |
+    const express = require("express");
+    const axios = require("axios");
+    
+    const app = express();
+    const PORT = 3000;
+
+    app.get("/weather", async (req, res) => {
+        const city = "${{parameters.value}}";
+        const KEY = "3da301ef219b1a51053fe32766928c20";
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${KEY}`;
+
+        let weather;
+        let error = null;
+
+        try {
+            const response = await axios.get(url);
+            weather = response.data.main.temp;
+            let in_weather = (weather - 273.15).toPrecision(4);  // Correct conversion to Celsius
+            res.send(in_weather);
+        } catch (error) {
+            res.status(500).send(error.message);  // Send error message
+        }
+        console.log("API is working");
+    });
+
+    app.listen(PORT, () => {
+        console.log(`Server runs at http://localhost:${PORT}`);
+    });
+  displayName: 'Start Weather API Server'
+
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: |
+      src/*
+      public/*
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy project files'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    artifactName: e2e-server
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    publishLocation: 'pipeline'
+  displayName: 'Publish pipeline artifact'
