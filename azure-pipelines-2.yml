@@ -20,7 +20,7 @@ parameters:
 steps:
 - task: NodeTool@0
   inputs:
-    version: '20.x'
+    version: '16.x'
   displayName: 'Install Node.js'
 
 - script: |
